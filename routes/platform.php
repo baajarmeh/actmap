@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -17,11 +10,14 @@ use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
-use App\Orchid\Screens\CategoryScreen;
-use App\Orchid\Screens\EventScreen;
-use App\Orchid\Screens\FacilityScreen;
-use App\Orchid\Screens\MapScreen;
-use App\Orchid\Screens\VenueScreen;
+use App\Orchid\Screens\Category\CategoryListScreen;
+use App\Orchid\Screens\Facility\FacilityListScreen;
+use App\Orchid\Screens\Map\MapListScreen;
+use App\Orchid\Screens\Venue\VenueListScreen;
+use App\Orchid\Screens\Category\CategoryEditScreen;
+use App\Orchid\Screens\Map\MapEditScreen;
+use App\Orchid\Screens\Facility\FacilityEditScreen;
+use App\Orchid\Screens\Venue\VenueEditScreen;
 
 
 /*
@@ -42,17 +38,25 @@ Route::screen('/', PlatformScreen::class)
 Route::screen('/main', PlatformScreen::class)
     ->name('platform.main');
 
-
-Route::screen('category', CategoryScreen::class)
+Route::screen('categories', CategoryListScreen::class)
     ->name('platform.category');
-Route::screen('event', EventScreen::class)
-    ->name('platform.event');
-Route::screen('facility', FacilityScreen::class)
+Route::screen('categories/create', CategoryEditScreen::class)
+    ->name('platform.category.create');
+
+Route::screen('facilities', FacilityListScreen::class)
     ->name('platform.facility');
-Route::screen('map', MapScreen::class)
+Route::screen('facilities/create', FacilityEditScreen::class)
+    ->name('platform.facility.create');
+
+Route::screen('maps', MapListScreen::class)
     ->name('platform.map');
-Route::screen('venue', VenueScreen::class)
+Route::screen('maps/create', MapEditScreen::class)
+    ->name('platform.map.create');
+
+Route::screen('venues', VenueListScreen::class)
     ->name('platform.venue');
+Route::screen('venues/create', VenueEditScreen::class)
+    ->name('platform.venue.create');
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
@@ -104,17 +108,17 @@ Route::screen('roles', RoleListScreen::class)
         ->push(__('Roles'), route('platform.systems.roles')));
 
 // Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push('Example screen'));
+// Route::screen('example', ExampleScreen::class)
+//     ->name('platform.example')
+//     ->breadcrumbs(fn (Trail $trail) => $trail
+//         ->parent('platform.index')
+//         ->push('Example screen'));
 
-Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
+// Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
+// Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
+// Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
+// Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
+// Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
+// Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');

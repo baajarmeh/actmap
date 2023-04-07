@@ -1,11 +1,12 @@
 {
-    "name": "laravel/laravel",
+    "name": "anwar/actmap",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "A graduation project for the university's activties on the map.",
+    "keywords": ["graduation", "university", "activties", "map"],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "doctrine/dbal": "^3.6",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",

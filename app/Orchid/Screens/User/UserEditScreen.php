@@ -52,7 +52,7 @@ class UserEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->user->exists ? 'Edit User' : 'Create User';
+        return $this->user->exists ? __('Edit User') : __('Create User');
     }
 
     /**
@@ -62,7 +62,7 @@ class UserEditScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'Details such as name, email and password';
+        return __('Details such as name, email and password');
     }
 
     /**
@@ -107,7 +107,6 @@ class UserEditScreen extends Screen
     public function layout(): iterable
     {
         return [
-
             Layout::block(UserEditLayout::class)
                 ->title(__('Profile Information'))
                 ->description(__('Update your account\'s profile information and email address.'))

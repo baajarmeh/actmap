@@ -40,7 +40,7 @@ class UserProfileScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'My account';
+        return __('My account');
     }
 
     /**
@@ -50,7 +50,7 @@ class UserProfileScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'Update your account details such as name, email address and password';
+        return __('Update your account details such as name, email address and password');
     }
 
     /**

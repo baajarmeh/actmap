@@ -49,7 +49,7 @@ class UserListScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'All registered users';
+        return __('All registered users');
     }
 
     /**

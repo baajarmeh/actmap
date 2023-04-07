@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Dashboard::useModel(
             \Orchid\Platform\Models\User::class,
-            \App\User::class
+            \App\Models\User::class
         );
     }
 }
