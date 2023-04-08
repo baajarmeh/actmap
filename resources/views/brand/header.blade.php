@@ -7,7 +7,7 @@
 @endpush
 
 <p class="h2 n-m font-thin v-center">
-    <x-orchid-icon path="database"/>
+    <x-orchid-icon path="graduation"/>
 
     <span class="m-l d-none d-sm-block">
         Anwar

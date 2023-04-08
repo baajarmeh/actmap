@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Orchid\Press\Http\Filters;
+namespace App\Orchid\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\DateRange;
 
-class CreatedFilter extends Filter
+
+class ActivityFilter extends Filter
 {
     /**
      * The value delimiter.
@@ -22,7 +23,7 @@ class CreatedFilter extends Filter
      * @var array
      */
     public $parameters = [
-        'created_at',
+        'activity_date',
     ];
 
     /**
@@ -30,7 +31,7 @@ class CreatedFilter extends Filter
      */
     public function name(): string
     {
-        return __('Date of creation');
+        return __('Activity date');
     }
 
     /**
@@ -40,8 +41,8 @@ class CreatedFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        return $builder->where('created_at', '>', $this->request->input('created_at.start'))
-            ->where('created_at', '<', $this->request->input('created_at.end'));
+        return $builder->where('activity_date', '>', $this->request->input('activity_date.start'))
+            ->where('activity_date', '<', $this->request->input('activity_date.end'));
     }
 
     /**
@@ -50,11 +51,11 @@ class CreatedFilter extends Filter
     public function display(): array
     {
         return [
-            DateRange::make('created_at')
+            DateRange::make('activity_date')
                 ->title($this->name())
                 ->value([
-                    'start' => $this->request->input('created_at.start'),
-                    'end'   => $this->request->input('created_at.end'),
+                    'start' => $this->request->input('activity_date.start'),
+                    'end'   => $this->request->input('activity_date.end'),
                 ]),
         ];
     }

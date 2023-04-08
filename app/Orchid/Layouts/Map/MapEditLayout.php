@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Map;
 
+use App\Models\Map;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Switcher;
+use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fieldset;
 
@@ -30,23 +32,34 @@ class MapEditLayout extends Rows
                 ->title(__('Name')),
             
             Switcher::make('map.active')
-                ->title(__('Status'))
-                ->placeholder(__('Select active status'))
-                ->options([
-                    1 => __('Active'),
-                    0 => __('Disabled'),
-                ]),
+                ->sendTrueOrFalse()
+                ->title(__('Status')),
+
+            // Switcher::make('map.active')
+            //     ->title(__('Status'))
+            //     ->placeholder(__('Select active status'))
+            //     ->options([
+            //         1 => __('Active'),
+            //         0 => __('Disabled'),
+            //     ]),
 
             Group::make([
-                Picture::make('photo')
+                Picture::make('map.image_id')
+                    ->title(__('Map Image'))
                     ->targetId()
-                    ->maxFileSize(2) // Set max file size to 2 MB
-                    ->attachOne('photo', Attachment::class)
-                    ->value($this->query->get('photo') ?? $this->query->get('photo_path'))
-                    ->title(__('Photo'))
-                    ->placeholder(__('Select a photo'))
-                    ->help(__('Upload a photo for the map'))
-                ])->title(__('Photo'))->collapsed(),
+                    ->help(__('Map Image')),
+
+                // Upload::make('map_photo')
+                //     ->storage('maps')
+                //     ->maxFiles(1)
+                //     ->maxFileSize(2)
+                //     ->acceptedFiles('.jpg, .jpeg, .png')
+                //     ->multiple(false)
+                //     ->title(__('Map photo'))
+                //     ->placeholder(__('Drag and drop files here or click to upload'))
+                //     ->hint(__('Max file size: 2MB'))
+                //     ->value(optional($this->map)->photo_path ?? null),
+                ]),
         ];
     }
 }

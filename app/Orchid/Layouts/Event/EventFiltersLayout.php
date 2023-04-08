@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Orchid\Layouts\Map;
+namespace App\Orchid\Layouts\Event;
 
 use App\Orchid\Filters\NameFilter;
-use App\Orchid\Filters\StatusFilter;
+use App\Orchid\Filters\ActivityFilter;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Layouts\Selection;
 
 
-class MapFiltersLayout extends Selection
+class EventFiltersLayout extends Selection
 {
     /**
      * @return string[]|Filter[]
@@ -17,7 +17,7 @@ class MapFiltersLayout extends Selection
     {
         return [
             NameFilter::class,
-            StatusFilter::class
+            ActivityFilter::class
         ];
     }
 }

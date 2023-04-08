@@ -114,8 +114,7 @@ class FacilityEditScreen extends Screen
     {
         $request->validate([
             'facility.name' => ['required', 'string'],
-            'facility.type' => ['required', 'string'],
-            'facility.active' => ['required', 'integer|in:0,1'],
+            'facility.type' => ['string'],
         ]);
 
         $facility->fill($request->input('facility'))->save();

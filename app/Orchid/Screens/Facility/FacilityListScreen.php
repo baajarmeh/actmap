@@ -34,7 +34,7 @@ class FacilityListScreen extends Screen
      */
     public function description(): ?string
     {
-        return __('All facilitys');
+        return __('All facilities');
     }
 
     /**
@@ -55,7 +55,7 @@ class FacilityListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'facilitys' => Facility::filters(FacilityFiltersLayout::class)
+            'facilities' => Facility::filters(FacilityFiltersLayout::class)
                 ->defaultSort('id', 'desc')
                 ->paginate(),
         ];
@@ -121,8 +121,7 @@ class FacilityListScreen extends Screen
     {
         $request->validate([
             'facility.name' => ['required', 'string'],
-            'facility.type' => ['required', 'string'],
-            'facility.active' => ['required', 'integer|in:0,1'],
+            'facility.type' => ['string'],
         ]);
 
         $facility->fill($request->input('facility'))->save();

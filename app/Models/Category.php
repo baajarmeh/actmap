@@ -67,17 +67,17 @@ class Category extends Model
         'deleted_at',
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope('withoutTrashed', function (Builder $builder) {
-            $builder->whereNull('deleted_at');
-        });
-    }
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope('withoutTrashed', function (Builder $builder) {
+    //         $builder->whereNull('deleted_at');
+    //     });
+    // }
 
     /**
      * Venues relationship.
      *
-     * @return \HasMany
+     * @return HasMany
      */
     public function venues(): HasMany
     {

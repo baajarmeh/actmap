@@ -93,7 +93,7 @@ class MapListScreen extends Screen
     }
 
     /**
-     * @param √
+     * @param Map $map
      *
      * @return array
      */
@@ -112,35 +112,5 @@ class MapListScreen extends Screen
         Map::findOrFail($request->get('id'))->delete();
 
         Toast::info(__('Map was removed'));
-    }
-
-    /**
-     * @param Request $request
-     * @param Map $map
-     */
-    public function saveMap(Request $request, Map $map): RedirectResponse
-    {
-        $request->validate([
-            'map.name' => ['required', 'string'],
-            'map.active' => ['required', 'integer|in:0,1'],
-            'map.photo' => ['nullable', 'image', 'max:2048'],
-        ]);
-
-        $map->fill($request->input('map'));
-
-        if ($request->hasFile('photo')) {
-            $attachment = $map->getAttachment('photo');
-            if ($attachment) {
-                $attachment->delete();
-            }
-            $attachment = $map->attachOne('photo', $request->file('photo'));
-            $map->photo_path = $attachment->url();
-        }
-    
-        $map->save();
-
-        Toast::info(__('Map was saved.'));
-
-        return redirect()->route('platform.map');
     }
 }

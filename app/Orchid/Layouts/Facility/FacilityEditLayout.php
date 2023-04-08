@@ -6,6 +6,7 @@ namespace App\Orchid\Layouts\Facility;
 
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Switcher;
 use Orchid\Screen\Layouts\Rows;
 
@@ -39,6 +40,10 @@ class FacilityEditLayout extends Rows
                 ->max(100)
                 ->required()
                 ->title(__('Name')),
+            
+            TextArea::make('facility.description')
+                ->rows(1)
+                ->title(__("Description"))
         ];
     }
 }

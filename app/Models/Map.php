@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 use Orchid\Filters\Filterable;
-use Orchid\Attachment\Attachable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\Where;
+use Orchid\Filters\Types\WhereBetween;
 
 
 class Map extends Model
 {
-    use HasFactory, AsSource, Filterable, SoftDeletes, Attachable;
+    use HasFactory, AsSource, Filterable, SoftDeletes;
 
     /**
      * @var string
@@ -28,7 +31,12 @@ class Map extends Model
     protected $fillable = [
         'name',
         'active',
-        'photo_path'
+        'photo_path',
+        'image_id',
+    ];
+
+    protected $attributes = [
+        'photo_path' => 'default.jpg', // set a default value
     ];
 
     /**
@@ -64,35 +72,53 @@ class Map extends Model
         'deleted_at',
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope('withoutTrashed', function (Builder $builder) {
-            $builder->whereNull('deleted_at');
-        });
-    }
-
-    protected static function boot()
+    public static function boot()
     {
         parent::boot();
 
-        static::saving(function (Map $map) {
-            if ($map->active) {
-                static::deactivateOtherEvents($map);
-            }
+        self::saving(function ($model) {
+            self::where('active', 0)
+                ->where('id', '<>', $model->id)
+                ->update(['active' => 1]);
+
+            // $model->createSlug($model->slug);
         });
     }
 
-    protected static function deactivateOtherMaps(Map $map)
+    /**
+     * Get only active map.
+     *
+     * @param Builder $query
+     * @param int  $active
+     *
+     * @return Builder
+     */
+    public function scopeActive(Builder $query): Builder
     {
-        DB::transaction(function () use ($map) {
-            static::where('active', 1)
-                ->where('id', '<>', $map->id)
-                ->update(['active' => 0]);
-        });
+        return $query->where('active', true);
     }
 
-    public function photo()
+    /**
+     * @return HasOne
+     */
+    public function image(): HasOne
     {
-        return $this->hasOne(Attachment::class, 'id', 'photo_attachment_id');
+        return $this->hasOne(Attachment::class, 'id', 'image_id')->withDefault();
+    }
+
+    public function imageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Attachment::find($this->image_id)->url ?? null,
+        );
     }
 }
+
+
+// public function __construct(public $title,public $message,public $file = null)
+// {
+//     $this->title = $title;
+//     $this->message = $message;
+//     $attachment = Attachment::find($file) ?? null;
+//     $this->file = $attachment ? storage_path('app/public/'.$attachment->path.$attachment->name.'.'.$attachment->extension) : null;
+// }

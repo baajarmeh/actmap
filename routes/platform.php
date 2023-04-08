@@ -10,15 +10,21 @@ use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
+
 use App\Orchid\Screens\Category\CategoryListScreen;
-use App\Orchid\Screens\Facility\FacilityListScreen;
-use App\Orchid\Screens\Map\MapListScreen;
-use App\Orchid\Screens\Venue\VenueListScreen;
 use App\Orchid\Screens\Category\CategoryEditScreen;
-use App\Orchid\Screens\Map\MapEditScreen;
+
+use App\Orchid\Screens\Facility\FacilityListScreen;
 use App\Orchid\Screens\Facility\FacilityEditScreen;
+
+use App\Orchid\Screens\Map\MapListScreen;
+use App\Orchid\Screens\Map\MapEditScreen;
+
+use App\Orchid\Screens\Venue\VenueListScreen;
 use App\Orchid\Screens\Venue\VenueEditScreen;
 
+use App\Orchid\Screens\Event\EventListScreen;
+use App\Orchid\Screens\Event\EventEditScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,21 +48,51 @@ Route::screen('categories', CategoryListScreen::class)
     ->name('platform.category');
 Route::screen('categories/create', CategoryEditScreen::class)
     ->name('platform.category.create');
+Route::screen('categories/{category}/edit', CategoryEditScreen::class)
+    ->name('platform.category.edit')
+    /*->breadcrumbs(fn (Trail $trail, $category) => $trail
+        ->parent('platform.category')
+        ->push($category->name, route('platform.category.edit', $category)))*/;
 
 Route::screen('facilities', FacilityListScreen::class)
     ->name('platform.facility');
 Route::screen('facilities/create', FacilityEditScreen::class)
     ->name('platform.facility.create');
+Route::screen('facilities/{facility}/edit', FacilityEditScreen::class)
+    ->name('platform.facility.edit')
+    /*->breadcrumbs(fn (Trail $trail, $facility) => $trail
+        ->parent('platform.facility')
+        ->push($facility->name, route('platform.facility.edit', $facility)))*/;
 
 Route::screen('maps', MapListScreen::class)
     ->name('platform.map');
 Route::screen('maps/create', MapEditScreen::class)
     ->name('platform.map.create');
+Route::screen('maps/{map}/edit', MapEditScreen::class)
+    ->name('platform.map.edit')
+    /*->breadcrumbs(fn (Trail $trail, $map) => $trail
+        ->parent('platform.map')
+        ->push($map->name, route('platform.map.edit', $map)))*/;
 
 Route::screen('venues', VenueListScreen::class)
     ->name('platform.venue');
 Route::screen('venues/create', VenueEditScreen::class)
     ->name('platform.venue.create');
+Route::screen('venues/{venue}/edit', VenueEditScreen::class)
+    ->name('platform.venue.edit')
+    /*->breadcrumbs(fn (Trail $trail, $venue) => $trail
+        ->parent('platform.venue')
+        ->push($venue->name, route('platform.venue.edit', $venue)))*/;
+
+Route::screen('events', EventListScreen::class)
+    ->name('platform.event');
+Route::screen('events/create', EventEditScreen::class)
+    ->name('platform.event.create');
+Route::screen('events/{event}/edit', EventEditScreen::class)
+    ->name('platform.event.edit')
+     /*->breadcrumbs(fn (Trail $trail, $event) => $trail
+        ->parent('platform.event')
+        ->push($event->name, route('platform.event.edit', $event)))*/;
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
@@ -106,19 +142,3 @@ Route::screen('roles', RoleListScreen::class)
     ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.index')
         ->push(__('Roles'), route('platform.systems.roles')));
-
-// Example...
-// Route::screen('example', ExampleScreen::class)
-//     ->name('platform.example')
-//     ->breadcrumbs(fn (Trail $trail) => $trail
-//         ->parent('platform.index')
-//         ->push('Example screen'));
-
-// Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-// Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-// Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-// Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-// Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-// Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-
-//Route::screen('idea', Idea::class, 'platform.screens.idea');

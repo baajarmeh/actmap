@@ -7,6 +7,7 @@ namespace App\Orchid\Layouts\Venue;
 use App\Models\Category;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Layouts\Rows;
 
 
@@ -26,10 +27,10 @@ class VenueEditLayout extends Rows
                 ->required()
                 ->title(__('Name')),
             
-            Field::select('venue.type_id')
-                ->fromModel(Category::class, 'name', 'id')
-                ->allowAdd()
-                ->title(__('Category')),
+            Relation::make('venue.type_id')
+                ->title(__('Type of Venue'))
+                ->fromModel(Category::class, 'name')
+                ->required(),
         ];
     }
 }

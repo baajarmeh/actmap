@@ -7,6 +7,8 @@ namespace App\Orchid\Screens\Map;
 use App\Models\Map;
 use App\Orchid\Layouts\Map\MapEditLayout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
@@ -93,16 +95,24 @@ class MapEditScreen extends Screen
     {
         return [
             Layout::block(MapEditLayout::class)
-                ->title(__('Map Information'))
-                ->commands(
-                    Button::make(__('Save'))
-                        ->type(Color::DEFAULT())
-                        ->icon('check')
-                        ->canSee($this->map->exists)
-                        ->method('save')
-                ),
+                // ->async('asyncGetMapData')
+                // ->title(__('Map Information'))
+                // ->commands(
+                //     Button::make(__('Save'))
+                //         ->type(Color::DEFAULT())
+                //         ->icon('check')
+                //         ->canSee($this->map->exists)
+                //         ->method('save')
+                // ),
         ];
     }
+
+    // public function asyncGetMapData(Map $map): array
+    // {
+    //     return [
+    //         'map' => $map,
+    //     ];
+    // }
 
     /**
      * @param Map $map
@@ -114,23 +124,35 @@ class MapEditScreen extends Screen
     {
         $request->validate([
             'map.name' => ['required', 'string'],
-            'map.type' => ['required', 'string'],
-            'map.active' => ['required', 'integer|in:0,1'],
-            'map.photo' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $map->fill($request->input('map'));
 
-        if ($request->hasFile('photo')) {
-            $attachment = $map->getAttachment('photo');
-            if ($attachment) {
-                $attachment->delete();
-            }
-            $attachment = $map->attachOne('photo', $request->file('photo'));
-            $map->photo_path = $attachment->url();
-        }
-    
+        $map->active = $request->input('map.active', false);
+        //dd($map);
+        // if ($request->hasFile('map_photo')) {
+        //     $file = $request->file('map_photo');
+        //     //dd($file);
+        //     $extension = $file->getClientOriginalExtension();
+        //     $filename = Str::uuid() . '.' . $extension;
+
+        //     // Create the maps folder if it doesn't exist
+        //     Storage::makeDirectory('maps');
+
+        //     Storage::putFileAs('maps', $file, $filename);
+        //     //dd($filename);
+        //     $map->photo_path = "maps/{$filename}";
+        // }
+
+        // $map->photo_path = ' ';
         $map->save();
+
+        // to deactivate other maps
+        if ($map->active) {
+            Map::where('active', 0)
+                ->where('id', '<>', $map->id)
+                ->update(['active' => 1]);
+        }
 
         Toast::info(__('Map was saved.'));
 

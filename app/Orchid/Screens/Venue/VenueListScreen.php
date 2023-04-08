@@ -55,7 +55,8 @@ class VenueListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'venues' => Venue::filters(VenueFiltersLayout::class)
+            'venues' => Venue::with('category')
+                ->filters(VenueFiltersLayout::class)
                 ->defaultSort('id', 'desc')
                 ->paginate(),
         ];
@@ -120,9 +121,8 @@ class VenueListScreen extends Screen
     public function saveVenue(Request $request, Venue $venue): void
     {
         $request->validate([
-            'venue.name' => ['required', 'string'],
-            'venue.type' => ['required', 'string'],
-            'venue.active' => ['required', 'integer|in:0,1'],
+            'venue.name' => ['required', 'string', 'max:100'],
+            'venue.type_id' => ['required', 'integer', 'exists:categories,id'],
         ]);
 
         $venue->fill($request->input('venue'))->save();

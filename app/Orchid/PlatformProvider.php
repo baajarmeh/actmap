@@ -27,24 +27,29 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerMainMenu(): array
     {
         return [
-            Menu::make(__('Categories'))
-                ->icon('category')
+            Menu::make(__('Type of Venues'))
+                ->icon('organization')
                 ->route('platform.category'),
-            
+
+            Menu::make(__('Venues'))
+                ->icon('globe-alt')
+                ->route('platform.venue')
+                ->permission('platform.venues'),
+
             Menu::make(__('Facilities'))
                 ->icon('building')
                 ->route('platform.facility')
                 ->permission('platform.facilities'),
 
-            Menu::make(__('Venues'))
-                ->icon('building')
-                ->route('platform.venue')
-                ->permission('platform.venues'),
-
             Menu::make(__('Map'))
                 ->icon('map')
                 ->route('platform.map')
                 ->permission('platform.maps'),
+
+            Menu::make(__('Events'))
+                ->icon('event')
+                ->route('platform.event')
+                ->permission('platform.events'),
 
             Menu::make(__('Users'))
                 ->icon('user')

@@ -66,12 +66,12 @@ class Venue extends Model
         'deleted_at',
     ];
 
-    protected static function booted()
+    /*protected static function booted()
     {
         static::addGlobalScope('withoutTrashed', function (Builder $builder) {
             $builder->whereNull('deleted_at');
         });
-    }
+    }*/
 
     /**
      * Category relationship.

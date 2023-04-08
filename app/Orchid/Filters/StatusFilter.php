@@ -16,7 +16,7 @@ class StatusFilter extends Filter
      * @var array
      */
     public $parameters = [
-        'status',
+        'status1',
     ];
 
     /**
@@ -34,7 +34,7 @@ class StatusFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        switch ($this->request->get('status')) {
+        switch ($this->request->get('status1')) {
             case 'active':
                 return $builder->active(1);
             case 'disabled':
@@ -50,8 +50,8 @@ class StatusFilter extends Filter
     public function display(): array
     {
         return [
-            CheckBox::make('status')
-                ->value($this->request->get('status'))
+            CheckBox::make('status1')
+                ->value($this->request->get('status1'))
                 ->options([
                     'active' => __('Published'),
                     'disabled' => __('Draft'),

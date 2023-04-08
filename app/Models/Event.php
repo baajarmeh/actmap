@@ -4,23 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Orchid\Screen\AsSource;
+use Orchid\Screen\AsMultiSource;
 use Orchid\Filters\Filterable;
 use Orchid\Attachment\Attachable;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereBetween;
 use App\Models\Venue;
 use App\Models\Photo;
+use Orchid\Screen\AsSource;
 
 
 class Event extends Model
 {
-    use HasFactory, AsSource, Filterable, SoftDeletes, Attachable;
+    use HasFactory, Filterable, SoftDeletes, AsSource;
 
     /**
      * @var string
@@ -37,10 +40,10 @@ class Event extends Model
         'ends_at',
         'venue_id',
         'room_number_id',
+        'main_image_id',
         'description',
         'px',
-        'py',
-        'main_photo'
+        'py'
     ];
 
     /**
@@ -81,17 +84,10 @@ class Event extends Model
         'deleted_at',
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope('withoutTrashed', function (Builder $builder) {
-            $builder->whereNull('deleted_at');
-        });
-    }
-
     /**
      * Venue relationship.
      *
-     * @return \BelongsTo
+     * @return BelongsTo
      */
     public function venue(): BelongsTo
     {
@@ -101,7 +97,7 @@ class Event extends Model
     /**
      * Room relationship.
      * 
-     * @return \BelongsTo
+     * @return BelongsTo
      */
     public function room(): BelongsTo
     {
@@ -109,12 +105,15 @@ class Event extends Model
     }
 
     /**
-     * Photos relationship.
-     *
-     * @return \HasMany
+     * @return HasOne
      */
-    public function photos(): HasMany
+    public function image(): HasOne
     {
-        return $this->hasMany(Photo::class, 'event_id');
+        return $this->hasOne(Attachment::class, 'id', 'main_image_id')->withDefault();
     }
+
+    // public function galleryPhotos(): HasMany
+    // {
+    //     return $this->hasMany(Attachment::class, 'attachable_id')->where('attachable_type', 'Event')->orderBy('sort');
+    // }
 }

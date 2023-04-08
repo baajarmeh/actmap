@@ -113,9 +113,8 @@ class VenueEditScreen extends Screen
     public function save(Venue $venue, Request $request)
     {
         $request->validate([
-            'venue.name' => ['required', 'string'],
-            'venue.type' => ['required', 'string'],
-            'venue.active' => ['required', 'integer|in:0,1'],
+            'venue.name' => ['required', 'string', 'max:100'],
+            'venue.type_id' => ['required', 'integer', 'exists:categories,id'],
         ]);
 
         $venue->fill($request->input('venue'))->save();
