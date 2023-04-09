@@ -35,7 +35,7 @@ Installing requirements are git and composer
 	should replace admin to username, admin@admin.com any email and password
 7. php artisan serve
 8. when it works it will give you the link with port number, you want to modify the value of APP_URL them in the .env like APP_URL=http://127.0.0.1:8000
-9. open through email: adminz@anwar.app and password: bait4622
+9. open through email: adminz@anwar.app and password: bait4622 or you're creating in setp #6 
 
 ## Contributing
 1. Anwar <21910969@students.hebron.edu>
