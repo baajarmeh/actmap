@@ -31,9 +31,11 @@ Installing requirements are git and composer
 4. composer install
 5. open the .env file and modify the value of DB_DATABASE by giving them the full path for path of database/anwar_map_v1.db like
 	C:\Apps\private\actmap\database\anwar_map_v1.db
-6. php artisan migrate
+6. php artisan orchid:admin admin admin@admin.com password
+	should replace admin to username, admin@admin.com any email and password
 7. php artisan serve
-7. when it works it will give you the link with port number, you want to modify the value of APP_URL them in the .env like APP_URL=http://127.0.0.1:8000
+8. when it works it will give you the link with port number, you want to modify the value of APP_URL them in the .env like APP_URL=http://127.0.0.1:8000
+9. open through email: adminz@anwar.app and password: bait4622
 
 ## Contributing
 1. Anwar <21910969@students.hebron.edu>
