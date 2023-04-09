@@ -166,7 +166,7 @@ return [
     */
 
     'attachment'    => [
-        'disk'      => env('FILESYSTEM_DISK', 'public'),
+        'disk'      => env('FILESYSTEM_DISK', 'public_storage'),
         'generator' => \Orchid\Attachment\Engines\Generator::class,
     ],
 

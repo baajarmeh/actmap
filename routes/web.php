@@ -3,6 +3,7 @@
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,18 +20,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('maps/{photoname}', function ($photoname) {
-    $path = storage_path("app/maps/{$photoname}");
-
-    if (!File::exists($path)) {
+Route::get('/storage/{path}', function ($path) {
+    $path = storage_path('app/' . $path);
+	// dd($path);
+    /*if (!Storage::exists($path)) {
         abort(404);
-    }
+    }*/
 
-    $file = File::get($path);
-    $type = File::mimeType($path);
+    $file = Storage::get($path);
 
-    $response = Response::make($file, 200);
+    $type = Storage::mimeType($path);
+
+    $response = new Response($file, 200);
     $response->header("Content-Type", $type);
 
     return $response;
-})->name('map.photo');
+})->where('path', '.*');
